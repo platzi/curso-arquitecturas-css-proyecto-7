@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
-import { FormControl } from '@angular/forms';
 
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { WeatherService } from 'src/app/services/weather.service';
 
 export interface DialogData {
   idArray: null;
@@ -33,10 +33,37 @@ export class ReminderCalendarComponent {
     { id: 'Grey', value: '#D3D3D3' },
   ];
 
+  weatherCity: {};
+  errorQuery: '';
+
   constructor(
     public dialogRef: MatDialogRef<ReminderCalendarComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private weatherService: WeatherService
   ) {
     console.log('maped data>>', data);
+  }
+
+  queryWeatherData(cityWeather) {
+    if (cityWeather) {
+      this.weatherService.getWeatherByDay(cityWeather).subscribe(
+        (data) => {
+          console.log('query weather', data);
+          this.weatherCity = { main: data.main, weather: data.weather };
+          console.log(this.weatherCity);
+        },
+        (error) => {
+          console.log('query error ', error);
+          console.log('query error ', error.message);
+          this.errorQuery = error.message;
+        }
+      );
+    } else {
+      this.weatherCity = null;
+    }
+  }
+
+  alert(message) {
+    console.log(message);
   }
 }

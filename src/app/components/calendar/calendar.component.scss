@@ -7,28 +7,19 @@ li {
   display: inline-block;
   border: 1px solid #ccc;
   width: calc(100% / 7 - 2px);
-  height: 50px;
+  //height: 10vh;
   text-align: center;
   cursor: pointer;
   &.days {
     font-weight: bold;
   }
-  // &.reminder {
-  //   width: 100%;
-  //   >
-  // }
-  &.grey {
-    color: #ccc;
-  }
-
   &:hover {
     background-color: #ccc;
   }
 }
-::ng-deep mat-expansion-panel {
-  div {
-    padding: 0 !important;
-  }
+
+.grey {
+  color: #ccc;
 }
 .panel-content {
   display: flex;
@@ -42,4 +33,19 @@ li {
   flex-wrap: wrap;
   justify-content: space-between;
   font-size: 10px;
+}
+::ng-deep mat-expansion-panel {
+  div {
+    padding: 0 2px !important;
+  }
+}
+::ng-deep mat-expansion-panel-header {
+  //height: 10vh !important;
+  flex-direction: column !important;
+}
+
+::ng-deep .fitPanel {
+  &.mat-expanded {
+    height: fit-content !important;
+  }
 }

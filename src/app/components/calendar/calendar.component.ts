@@ -143,7 +143,7 @@ export class CalendarComponent {
   }
 
   isSameMonth(date) {
-    console.log('date current>>', date, ' vs ', this.date);
+    //    console.log('date current>>', date, ' vs ', this.date);
     return date.getMonth() === this.date.getMonth();
   }
 

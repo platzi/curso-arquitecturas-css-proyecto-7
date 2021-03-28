@@ -10,9 +10,17 @@ import { MaterialModule } from './material-module';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ReminderCalendarComponent } from './components/reminder-calendar/reminder-calendar.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
+import { WeatherService } from './services/weather.service';
+import { HttpClientModule } from '@angular/common/http';
+import { ConverterGradesPipe } from './utils/converter-grades.pipe';
 
 @NgModule({
-  declarations: [AppComponent, CalendarComponent, ReminderCalendarComponent],
+  declarations: [
+    AppComponent,
+    CalendarComponent,
+    ReminderCalendarComponent,
+    ConverterGradesPipe,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -21,8 +29,9 @@ import { CalendarComponent } from './components/calendar/calendar.component';
     MatNativeDateModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [WeatherService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
