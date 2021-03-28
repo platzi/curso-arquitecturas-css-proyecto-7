@@ -117,7 +117,14 @@ export class CalendarComponent {
 
         console.log('arrayCheck', arrayCheck);
         if (arrayCheck[0]['dayReminders'].length > 0) {
-          this.modifyReminder(result);
+          let indexReminder = arrayCheck[0]['dayReminders'].filter(
+            (y) => y.idArray == result.idArray
+          );
+          if (indexReminder.length > 0) {
+            this.modifyReminder(result);
+          } else {
+            this.enterReminderInDay(result);
+          }
         } else {
           this.enterReminderInDay(result);
         }
@@ -136,6 +143,7 @@ export class CalendarComponent {
   }
 
   isSameMonth(date) {
+    console.log('date current>>', date, ' vs ', this.date);
     return date.getMonth() === this.date.getMonth();
   }
 
