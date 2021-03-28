@@ -11,6 +11,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   exports: [
@@ -24,10 +28,13 @@ import { MatInputModule } from '@angular/material/input';
     MatDialogModule,
     MatNativeDateModule,
     MatRippleModule,
-
+    MatSelectModule,
     OverlayModule,
     PortalModule,
     ScrollingModule,
+    MatExpansionModule,
+    MatIconModule,
+    MatTooltipModule,
   ],
 })
 export class MaterialModule {}

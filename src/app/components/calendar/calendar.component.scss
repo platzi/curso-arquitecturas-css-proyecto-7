@@ -1,0 +1,45 @@
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+li {
+  display: inline-block;
+  border: 1px solid #ccc;
+  width: calc(100% / 7 - 2px);
+  height: 50px;
+  text-align: center;
+  cursor: pointer;
+  &.days {
+    font-weight: bold;
+  }
+  // &.reminder {
+  //   width: 100%;
+  //   >
+  // }
+  &.grey {
+    color: #ccc;
+  }
+
+  &:hover {
+    background-color: #ccc;
+  }
+}
+::ng-deep mat-expansion-panel {
+  div {
+    padding: 0 !important;
+  }
+}
+.panel-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.reminder {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  font-size: 10px;
+}

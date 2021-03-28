@@ -1,0 +1,49 @@
+<h1 mat-dialog-title>Reminder Created</h1>
+<div mat-dialog-content>
+  <h4>Date: {{ data.dayDate | date: "dd-MM-yyyy" }}</h4>
+  <div>
+    <label><strong>Reminder</strong></label>
+    <input
+      matInput
+      type="text"
+      [(ngModel)]="data.textReminder"
+      [maxlength]="30"
+    />
+  </div>
+  <div>
+    <label><strong>Hour</strong></label>
+    <input matInput type="time" [(ngModel)]="data.hourReminder" />
+  </div>
+  <div>
+    <label><strong>City</strong></label>
+    <input matInput [(ngModel)]="data.city" />
+  </div>
+  <div>
+    <strong>Color of Reminder</strong>
+    <mat-form-field>
+      <mat-select
+        [(ngModel)]="data.colorReminder"
+        [(value)]="data.colorReminder"
+        [ngStyle]="{
+          background: data.colorReminder ? data.colorReminder : 'white'
+        }"
+      >
+        <mat-option
+          *ngFor="let topping of arrayColors"
+          value="{{ topping.value ? topping.value : 'white' }}"
+          [ngStyle]="{ background: topping.value ? topping.value : 'white' }"
+        >
+          {{ topping.id }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <br />
+  <button
+    mat-button
+    [mat-dialog-close]="data"
+    [disabled]="!data.city || !data.hourReminder"
+  >
+    {{ data.idArray ? "Edit Reminder" : "Create Reminder" }}
+  </button>
+</div>

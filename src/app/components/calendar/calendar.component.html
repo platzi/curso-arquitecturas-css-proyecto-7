@@ -1,0 +1,46 @@
+<p>calendar works!</p>
+<ul>
+  <li class="days" *ngFor="let day of days">{{ day }}</li>
+  <li
+    *ngFor="let dayCalendar of remindersCalendar"
+    [ngClass]="{ grey: !isSameMonth(dayCalendar.dayDate) }"
+    (click)="(!panelOpenState)"
+  >
+    <!--  -->
+    <mat-expansion-panel
+      hideToggle
+      (opened)="panelOpenState = true"
+      (closed)="panelOpenState = false"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ dayCalendar.dayDate | date: "d" }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div class="panel-content" *ngIf="dayCalendar.dayReminders.length > 0">
+        <div
+          class="reminder"
+          *ngFor="let r of dayCalendar.dayReminders"
+          [ngStyle]="{ color: r.colorReminder ? r.colorReminder : 'white' }"
+        >
+          <p>{{ r.textReminder }}</p>
+          <!-- <p>{{ r.textReminder }} {{ r.city }} {{ r.hourReminder }}</p> -->
+          <mat-icon
+            matTooltip="Edit Reminder"
+            mat-button
+            (click)="openDialog(r)"
+            >edit_note</mat-icon
+          >
+        </div>
+      </div>
+      <mat-icon
+        matTooltip="Create Reminder"
+        aria-hidden="false"
+        (click)="openDialog(dayCalendar)"
+        >create</mat-icon
+      >
+    </mat-expansion-panel>
+    <!-- (click)="selected.emit(date)" -->
+  </li>
+</ul>
