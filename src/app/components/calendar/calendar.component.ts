@@ -20,6 +20,10 @@ export class CalendarComponent {
   @Output() selected = new EventEmitter();
 
   constructor(public dialog: MatDialog) {
+    this.buildCalendar();
+  }
+
+  buildCalendar() {
     this.dates = this.getCalendarDays(this.date);
     this.buildArrayReminder(this.dates);
     console.log('reminderArray', this.remindersCalendar);
@@ -30,26 +34,17 @@ export class CalendarComponent {
   }
 
   buildArrayReminder(daysMonth) {
+    this.remindersCalendar = [];
     daysMonth.forEach((day) => {
       this.remindersCalendar.push({
         id: this.createIdDay(day),
         dayDate: day,
-        //Test date generated
         dayReminders: new Array(),
-        //   {
-        //   idDate: this.createIdDay(day),
-        //   id: 1,
-        //   dayDate: day,
-        //   city: 'Loja',
-        //   textReminder: 'textReminder',
-        //   hourReminder: 'hourReminder',
-        //   colorReminder: '#000000',
-        // }),
       });
     });
   }
 
-  //Add whithin of the Array of Reminders for date a new entry
+  //Add a new entry whithin of the Array of Reminders
   enterReminderInDay(resultReminder) {
     this.remindersCalendar.map((x) => {
       if (x.id === resultReminder.idDate) {
@@ -62,14 +57,22 @@ export class CalendarComponent {
           hourReminder: resultReminder.hourReminder,
           colorReminder: resultReminder.colorReminder,
         });
+        x.dayReminders.sort((a, b) =>
+          a.hourReminder > b.hourReminder
+            ? 1
+            : b.hourReminder > a.hourReminder
+            ? -1
+            : 0
+        );
       }
+      return x;
     });
   }
 
+  //Search the index of the reminder and update the data
   modifyReminder(reminderModified) {
     this.remindersCalendar.map((x) => {
       if (x.id === reminderModified.idDate) {
-        //console.log('x element of Array Reminder', x);
         x.dayReminders.map((y) => {
           if (y.idArray == reminderModified.idArray) {
             y.textReminder = reminderModified.textReminder;
@@ -79,13 +82,22 @@ export class CalendarComponent {
           }
           return y;
         });
+        x.dayReminders.sort((a, b) =>
+          a.hourReminder > b.hourReminder
+            ? 1
+            : b.hourReminder > a.hourReminder
+            ? -1
+            : 0
+        );
       }
+      return x;
     });
   }
 
   openDialog(dateReminder) {
     console.log('dateReminder>>>', dateReminder);
     let data;
+    //create a structure for send the data to the modal
     if (dateReminder.idArray) {
       console.log('element of array');
       data = {
@@ -105,7 +117,6 @@ export class CalendarComponent {
       };
     }
     const dialogRef = this.dialog.open(ReminderCalendarComponent, {
-      //create a structure for send the data to the modal
       data,
     });
     dialogRef.afterClosed().subscribe((result) => {
@@ -139,7 +150,7 @@ export class CalendarComponent {
   setMonth(inc) {
     const [year, month] = [this.date.getFullYear(), this.date.getMonth()];
     this.date = new Date(year, month + inc, 1);
-    this.dates = this.getCalendarDays(this.date);
+    this.buildCalendar();
   }
 
   isSameMonth(date) {

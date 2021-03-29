@@ -45,17 +45,18 @@ export class ReminderCalendarComponent {
   }
 
   queryWeatherData(cityWeather) {
-    if (cityWeather) {
-      this.weatherService.getWeatherByDay(cityWeather).subscribe(
+    if (cityWeather || this.data.city) {
+      let cityQuery = this.data.city ? this.data.city : cityWeather;
+      this.weatherService.getWeatherByDay(cityQuery).subscribe(
         (data) => {
           console.log('query weather', data);
           this.weatherCity = { main: data.main, weather: data.weather };
           console.log(this.weatherCity);
         },
-        (error) => {
-          console.log('query error ', error);
-          console.log('query error ', error.message);
-          this.errorQuery = error.message;
+        (err) => {
+          console.log('query error ', err);
+          console.log('query error ', err.error.message);
+          this.errorQuery = err.error.message;
         }
       );
     } else {

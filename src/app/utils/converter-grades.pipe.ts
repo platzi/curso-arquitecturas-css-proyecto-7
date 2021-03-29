@@ -8,10 +8,12 @@ export class ConverterGradesPipe implements PipeTransform {
     let convertTemp = '';
     switch (metric) {
       case 'F':
-        convertTemp = `${(temperature - 273.15) * 1.8 + 32} °${metric}`;
+        convertTemp = `${((temperature - 273.15) * 1.8 + 32).toFixed(
+          2
+        )} °${metric}`;
         break;
       default:
-        convertTemp = `${temperature - 273.15} °C`; //temperature - 273.15;
+        convertTemp = `${(temperature - 273.15).toFixed(2)} °C`; //temperature - 273.15;
         break;
     }
     return convertTemp;
