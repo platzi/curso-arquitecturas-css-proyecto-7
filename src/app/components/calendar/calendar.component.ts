@@ -1,4 +1,6 @@
 import { Component, Output, OnInit, EventEmitter } from '@angular/core';
+import { v4 as uuidv4 } from 'uuid';
+
 import { ReminderCalendarComponent } from '../reminder-calendar/reminder-calendar.component';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -21,6 +23,7 @@ export class CalendarComponent {
 
   constructor(public dialog: MatDialog) {
     this.buildCalendar();
+    console.log('uuidv4()', uuidv4());
   }
 
   buildCalendar() {
@@ -49,7 +52,7 @@ export class CalendarComponent {
     this.remindersCalendar.map((x) => {
       if (x.id === resultReminder.idDate) {
         x.dayReminders.push({
-          idArray: x.dayReminders.length + 1,
+          idArray: uuidv4(),
           idDate: resultReminder.idDate,
           dayReminder: resultReminder.dayDate,
           city: resultReminder.city,
@@ -122,21 +125,33 @@ export class CalendarComponent {
     dialogRef.afterClosed().subscribe((result) => {
       console.log('result', result);
       if (result) {
-        let arrayCheck = this.remindersCalendar.filter(
-          (x) => x.id == result.idDate
-        );
+        let dayID = result.idDate;
+        if (data.dayDate !== result.dayDate) {
+          dayID = this.createIdDay(result.dayDate);
+        }
+        let arrayCheck = this.remindersCalendar.filter((x) => x.id == dayID);
 
         console.log('arrayCheck', arrayCheck);
+
+        //Check if Array' length of Reminders in the day is > 0
         if (arrayCheck[0]['dayReminders'].length > 0) {
           let indexReminder = arrayCheck[0]['dayReminders'].filter(
             (y) => y.idArray == result.idArray
           );
+          //Check if the element exist in the array
           if (indexReminder.length > 0) {
-            this.modifyReminder(result);
+            if (indexReminder.dayReminder == result.dayDate) {
+              this.modifyReminder(result);
+            } else {
+              this.deleteReminder(result);
+              result.idDate = this.createIdDay(result.dayDate);
+              this.enterReminderInDay(result);
+            }
           } else {
             this.enterReminderInDay(result);
           }
         } else {
+          result.idDate = this.createIdDay(result.dayDate);
           this.enterReminderInDay(result);
         }
         console.log(
@@ -177,5 +192,29 @@ export class CalendarComponent {
 
   private range(start, end, length = end - start + 1) {
     return Array.from({ length }, (_, i) => start + i);
+  }
+
+  deleteReminder(reminderDelete) {
+    console.log('reminderDelete', reminderDelete);
+    if (reminderDelete.idArray) {
+      this.remindersCalendar.map((x) => {
+        if (x.id === reminderDelete.idDate) {
+          let arrayModified = x.dayReminders.filter(
+            (y) => y.idArray !== reminderDelete.idArray
+          );
+          x.dayReminders = arrayModified;
+          console.log('x.dayReminders', x.dayReminders);
+        }
+        return x;
+      });
+    } else {
+      this.remindersCalendar.map((x) => {
+        if (x.id === reminderDelete.id) {
+          x.dayReminders = [];
+          console.log('x.dayReminders', x);
+        }
+        return x;
+      });
+    }
   }
 }

@@ -2,15 +2,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReminderCalendarComponent } from './reminder-calendar.component';
 
-describe('ReminderCalendarComponent', () => {
+xdescribe('ReminderCalendarComponent', () => {
   let component: ReminderCalendarComponent;
   let fixture: ComponentFixture<ReminderCalendarComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ReminderCalendarComponent ]
-    })
-    .compileComponents();
+      declarations: [ReminderCalendarComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
