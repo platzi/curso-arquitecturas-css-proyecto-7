@@ -28,6 +28,8 @@ li {
   &.days {
     font-weight: bold;
     padding: 10px 0px;
+    background-color: #78c4d4; // rgb(47, 59, 128);
+    color: white;
   }
 
   &:hover {
@@ -46,6 +48,12 @@ li {
   width: 100%;
   justify-content: space-between;
   font-size: 10px;
+  line-height: 125%;
+
+  > div {
+    display: flex;
+    justify-content: flex-end;
+  }
 }
 ::ng-deep mat-expansion-panel {
   div {

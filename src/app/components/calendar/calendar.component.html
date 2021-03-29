@@ -6,7 +6,10 @@
 </div>
 <ul>
   <li class="days" *ngFor="let day of days">{{ day }}</li>
-  <li *ngFor="let dayCalendar of remindersCalendar" (click)="(!panelOpenState)">
+  <li
+    *ngFor="let dayCalendar of remindersCalendar; index as i"
+    (click)="(!panelOpenState)"
+  >
     <mat-expansion-panel
       hideToggle
       (opened)="panelOpenState = true"
@@ -40,12 +43,14 @@
         >
           <p>{{ r.textReminder }} {{ r.hourReminder }}</p>
           <!-- <p>{{ r.textReminder }} {{ r.city }} {{ r.hourReminder }}</p> -->
-          <mat-icon matTooltip="Edit Reminder" (click)="openDialog(r)"
-            >edit_note</mat-icon
-          >
-          <mat-icon matTooltip="Delete Reminder" (click)="deleteReminder(r)"
-            >delete</mat-icon
-          >
+          <div>
+            <mat-icon matTooltip="Edit Reminder" (click)="openDialog(r)"
+              >edit_note</mat-icon
+            >
+            <mat-icon matTooltip="Delete Reminder" (click)="deleteReminder(r)"
+              >delete</mat-icon
+            >
+          </div>
         </div>
       </div>
       <mat-icon
@@ -55,6 +60,7 @@
         >create</mat-icon
       >
       <mat-icon
+        *ngIf="dayCalendar.dayReminders.length > 0"
         matTooltip="Delete All Reminders"
         aria-hidden="false"
         (click)="deleteReminder(dayCalendar)"
