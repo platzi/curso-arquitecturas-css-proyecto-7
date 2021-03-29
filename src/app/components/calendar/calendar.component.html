@@ -19,6 +19,16 @@
           [ngClass]="{ grey: !isSameMonth(dayCalendar.dayDate) }"
         >
           {{ dayCalendar.dayDate | date: "d" }}
+          <mat-icon
+            *ngIf="dayCalendar.dayReminders.length > 0"
+            matTooltip="Reminders"
+            aria-hidden="false"
+            [matBadge]="dayCalendar.dayReminders.length"
+            matBadgeColor="accent"
+            matBadgeSize="small"
+            matBadgePosition="below"
+            >event</mat-icon
+          >
         </mat-panel-title>
       </mat-expansion-panel-header>
 
@@ -26,12 +36,15 @@
         <div
           class="reminder"
           *ngFor="let r of dayCalendar.dayReminders"
-          [ngStyle]="{ color: r.colorReminder ? r.colorReminder : 'white' }"
+          [ngStyle]="{ color: r.colorReminder ? r.colorReminder : 'black' }"
         >
           <p>{{ r.textReminder }} {{ r.hourReminder }}</p>
           <!-- <p>{{ r.textReminder }} {{ r.city }} {{ r.hourReminder }}</p> -->
           <mat-icon matTooltip="Edit Reminder" (click)="openDialog(r)"
             >edit_note</mat-icon
+          >
+          <mat-icon matTooltip="Delete Reminder" (click)="deleteReminder(r)"
+            >delete</mat-icon
           >
         </div>
       </div>
@@ -41,6 +54,12 @@
         (click)="openDialog(dayCalendar)"
         >create</mat-icon
       >
+      <mat-icon
+        matTooltip="Delete All Reminders"
+        aria-hidden="false"
+        (click)="deleteReminder(dayCalendar)"
+        >delete_sweep
+      </mat-icon>
     </mat-expansion-panel>
     <!-- (click)="selected.emit(date)" -->
   </li>

@@ -1,10 +1,13 @@
 h1 {
   text-align: center;
-  padding: 5px;
+  padding-top: 15px;
+  background-color: #f3f4ed;
 }
 
 .buttonCalendar {
-  padding: 5px;
+  display: flex;
+  justify-content: center;
+  padding: 10px 0px;
   button {
     margin: 0px 5px;
   }
@@ -24,6 +27,7 @@ li {
   cursor: pointer;
   &.days {
     font-weight: bold;
+    padding: 10px 0px;
   }
 
   &:hover {
@@ -40,7 +44,6 @@ li {
   display: flex;
   flex-direction: row;
   width: 100%;
-  flex-wrap: wrap;
   justify-content: space-between;
   font-size: 10px;
 }
@@ -60,6 +63,6 @@ li {
 
 ::ng-deep .fitPanel {
   &.mat-expanded {
-    height: fit-content !important;
+    height: 9vh !important;
   }
 }

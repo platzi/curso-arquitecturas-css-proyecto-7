@@ -1,6 +1,18 @@
 <h1 mat-dialog-title>Reminder Created</h1>
 <div mat-dialog-content>
-  <h4>Date: {{ data.dayDate | date: "dd-MM-yyyy" }}</h4>
+  <div class="fieldReminder">
+    <label class="resaltedTitle">Date:</label>
+    <mat-form-field appearance="fill">
+      <input
+        matInput
+        [matDatepicker]="picker"
+        [formControl]="date"
+        (dateChange)="addEvent($event)"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
   <div class="fieldReminder">
     <label class="resaltedTitle">Reminder</label>
     <input
@@ -40,7 +52,7 @@
     <!-- </div> -->
   </div>
   <div class="fieldReminder">
-    <label class="resaltedTitle">Color of Reminder</label>
+    <label class="resaltedTitle">Color</label>
     <mat-form-field>
       <mat-select
         [(ngModel)]="data.colorReminder"
@@ -50,11 +62,11 @@
         }"
       >
         <mat-option
-          *ngFor="let topping of arrayColors"
-          value="{{ topping.value ? topping.value : 'white' }}"
-          [ngStyle]="{ background: topping.value ? topping.value : 'white' }"
+          *ngFor="let colorR of arrayColors"
+          value="{{ colorR.value ? colorR.value : 'white' }}"
+          [ngStyle]="{ background: colorR.value ? colorR.value : 'white' }"
         >
-          {{ topping.id }}
+          {{ colorR.id }}
         </mat-option>
       </mat-select>
     </mat-form-field>
