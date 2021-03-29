@@ -1,0 +1,70 @@
+<h1 mat-dialog-title>Reminder Created</h1>
+<div mat-dialog-content>
+  <h4>Date: {{ data.dayDate | date: "dd-MM-yyyy" }}</h4>
+  <div class="fieldReminder">
+    <label class="resaltedTitle">Reminder</label>
+    <input
+      matInput
+      type="text"
+      [(ngModel)]="data.textReminder"
+      [maxlength]="30"
+    />
+  </div>
+  <div class="fieldReminder">
+    <label class="resaltedTitle">Hour</label>
+    <input matInput type="time" [(ngModel)]="data.hourReminder" />
+  </div>
+  <div class="fieldReminder">
+    <label class="resaltedTitle">City</label>
+    <input
+      type="text"
+      matInput
+      [(ngModel)]="data.city"
+      (change)="queryWeatherData(data.city)"
+    />
+  </div>
+  <div class="foreCastWeather" *ngIf="weatherCity">
+    <label class="resaltedTitle">Forecast</label>
+    <!-- <div class="foreCastWeather"> -->
+    <div>
+      <div class="parameter">
+        <mat-icon aria-hidden="false">filter_drama</mat-icon>
+        <label>{{ weatherCity.main.temp_min | converterGrades }}</label>
+        <label>{{ weatherCity.main.temp_max | converterGrades }}</label>
+      </div>
+      <div class="parameter">
+        <strong> {{ weatherCity.weather[0]["main"] }} </strong>
+        <label>{{ weatherCity.weather[0]["description"] }}</label>
+      </div>
+    </div>
+    <!-- </div> -->
+  </div>
+  <div class="fieldReminder">
+    <label class="resaltedTitle">Color of Reminder</label>
+    <mat-form-field>
+      <mat-select
+        [(ngModel)]="data.colorReminder"
+        [(value)]="data.colorReminder"
+        [ngStyle]="{
+          background: data.colorReminder ? data.colorReminder : 'white'
+        }"
+      >
+        <mat-option
+          *ngFor="let topping of arrayColors"
+          value="{{ topping.value ? topping.value : 'white' }}"
+          [ngStyle]="{ background: topping.value ? topping.value : 'white' }"
+        >
+          {{ topping.id }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <br />
+  <button
+    mat-button
+    [mat-dialog-close]="data"
+    [disabled]="!data.city || !data.hourReminder"
+  >
+    {{ data.idArray ? "Edit Reminder" : "Create Reminder" }}
+  </button>
+</div>

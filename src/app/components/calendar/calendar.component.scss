@@ -1,0 +1,65 @@
+h1 {
+  text-align: center;
+  padding: 5px;
+}
+
+.buttonCalendar {
+  padding: 5px;
+  button {
+    margin: 0px 5px;
+  }
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+li {
+  display: inline-block;
+  border: 1px solid #ccc;
+  width: calc(100% / 7 - 2px);
+  //height: 10vh;
+  text-align: center;
+  cursor: pointer;
+  &.days {
+    font-weight: bold;
+  }
+
+  &:hover {
+    background-color: #ccc;
+  }
+}
+
+.panel-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.reminder {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  font-size: 10px;
+}
+::ng-deep mat-expansion-panel {
+  div {
+    padding: 0 2px !important;
+  }
+}
+
+::ng-deep mat-expansion-panel-header {
+  //height: 10vh !important;
+  flex-direction: column !important;
+  .grey {
+    color: #ccc;
+  }
+}
+
+::ng-deep .fitPanel {
+  &.mat-expanded {
+    height: fit-content !important;
+  }
+}
