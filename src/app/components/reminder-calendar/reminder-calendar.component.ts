@@ -44,24 +44,23 @@ export class ReminderCalendarComponent {
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private weatherService: WeatherService
   ) {
-    console.log('maped data>>', data);
     this.queryWeatherData(data.city);
   }
 
   queryWeatherData(cityWeather) {
-    console.log('cityWeather', cityWeather);
     if (cityWeather || this.data.city) {
       let cityQuery = this.data.city ? this.data.city : cityWeather;
       this.weatherService.getWeatherByDay(cityQuery).subscribe(
         (data) => {
-          console.log('query weather', data);
           this.weatherCity = { main: data.main, weather: data.weather };
-          console.log(this.weatherCity);
         },
         (err) => {
           this.weatherCity = null;
-          console.log('query error ', err);
-          console.log('query error ', err.error.message);
+
+          console.log(
+            'query error ',
+            err.error.message ? err.error.message : err
+          );
           this.errorQuery = err.error.message;
         }
       );
@@ -71,12 +70,6 @@ export class ReminderCalendarComponent {
   }
 
   addEvent(event: MatDatepickerInputEvent<Date>) {
-    console.log('data.daydate', this.data.dayDate, event.value);
     this.data.dayDate = event.value;
-  }
-
-  dateModified(dateModified) {
-    console.log('data.daydate', this.data.dayDate, dateModified);
-    this.data.dayDate = dateModified;
   }
 }

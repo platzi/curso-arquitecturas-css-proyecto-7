@@ -23,13 +23,11 @@ export class CalendarComponent {
 
   constructor(public dialog: MatDialog) {
     this.buildCalendar();
-    console.log('uuidv4()', uuidv4());
   }
 
   buildCalendar() {
     this.dates = this.getCalendarDays(this.date);
     this.buildArrayReminder(this.dates);
-    console.log('reminderArray', this.remindersCalendar);
   }
 
   createIdDay(dateDay) {
@@ -98,11 +96,12 @@ export class CalendarComponent {
   }
 
   openDialog(dateReminder) {
-    console.log('dateReminder>>>', dateReminder);
     let data;
+    let newRegister = false;
+    let bkDateDay;
     //create a structure for send the data to the modal
     if (dateReminder.idArray) {
-      console.log('element of array');
+      //Create the data for edited a reminder
       data = {
         idArray: dateReminder.idArray,
         dayDate: dateReminder.dayReminder,
@@ -112,52 +111,40 @@ export class CalendarComponent {
         hourReminder: dateReminder.hourReminder,
         colorReminder: dateReminder.colorReminder,
       };
+      bkDateDay = dateReminder.dayReminder;
     } else {
-      console.log('no hay registro');
+      //Enter a new reminder
       data = {
         dayDate: dateReminder.dayDate,
         idDate: dateReminder.id,
       };
+      newRegister = true;
+      bkDateDay = dateReminder.dayDate;
     }
+
     const dialogRef = this.dialog.open(ReminderCalendarComponent, {
       data,
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('result', result);
       if (result) {
-        let dayID = result.idDate;
-        if (data.dayDate !== result.dayDate) {
-          dayID = this.createIdDay(result.dayDate);
-        }
-        let arrayCheck = this.remindersCalendar.filter((x) => x.id == dayID);
-
-        console.log('arrayCheck', arrayCheck);
-
-        //Check if Array' length of Reminders in the day is > 0
-        if (arrayCheck[0]['dayReminders'].length > 0) {
-          let indexReminder = arrayCheck[0]['dayReminders'].filter(
-            (y) => y.idArray == result.idArray
-          );
-          //Check if the element exist in the array
-          if (indexReminder.length > 0) {
-            if (indexReminder.dayReminder == result.dayDate) {
-              this.modifyReminder(result);
-            } else {
-              this.deleteReminder(result);
-              result.idDate = this.createIdDay(result.dayDate);
-              this.enterReminderInDay(result);
-            }
+        //Don't exist the register
+        if (newRegister) {
+          if (bkDateDay == result.dayDate) {
+            this.enterReminderInDay(result);
           } else {
+            result.idDate = this.createIdDay(result.dayDate);
             this.enterReminderInDay(result);
           }
         } else {
-          result.idDate = this.createIdDay(result.dayDate);
-          this.enterReminderInDay(result);
+          if (bkDateDay == result.dayDate) {
+            this.modifyReminder(result);
+          } else {
+            result.idDate = this.createIdDay(bkDateDay);
+            this.deleteReminder(result);
+            result.idDate = this.createIdDay(result.dayDate);
+            this.enterReminderInDay(result);
+          }
         }
-        console.log(
-          'filterArray',
-          this.remindersCalendar.filter((x) => x.id == result.idDate)
-        );
       }
     });
   }
@@ -169,7 +156,6 @@ export class CalendarComponent {
   }
 
   isSameMonth(date) {
-    //    console.log('date current>>', date, ' vs ', this.date);
     return date.getMonth() === this.date.getMonth();
   }
 
@@ -195,7 +181,6 @@ export class CalendarComponent {
   }
 
   deleteReminder(reminderDelete) {
-    console.log('reminderDelete', reminderDelete);
     if (reminderDelete.idArray) {
       this.remindersCalendar.map((x) => {
         if (x.id === reminderDelete.idDate) {
@@ -203,7 +188,6 @@ export class CalendarComponent {
             (y) => y.idArray !== reminderDelete.idArray
           );
           x.dayReminders = arrayModified;
-          console.log('x.dayReminders', x.dayReminders);
         }
         return x;
       });
@@ -211,7 +195,6 @@ export class CalendarComponent {
       this.remindersCalendar.map((x) => {
         if (x.id === reminderDelete.id) {
           x.dayReminders = [];
-          console.log('x.dayReminders', x);
         }
         return x;
       });
