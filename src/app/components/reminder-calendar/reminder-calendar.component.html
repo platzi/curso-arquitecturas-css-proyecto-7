@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>Reminder Created</h1>
 <div mat-dialog-content>
-  <div class="fieldReminder">
-    <label class="resaltedTitle">Date:</label>
+  <div class="field-reminder">
+    <label class="title">Date:</label>
     <mat-form-field appearance="fill">
       <input
         matInput
@@ -13,8 +13,8 @@
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
   </div>
-  <div class="fieldReminder">
-    <label class="resaltedTitle">Reminder</label>
+  <div class="field-reminder">
+    <label class="title">Reminder</label>
     <input
       matInput
       type="text"
@@ -22,12 +22,12 @@
       [maxlength]="30"
     />
   </div>
-  <div class="fieldReminder">
-    <label class="resaltedTitle">Hour</label>
+  <div class="field-reminder">
+    <label class="title">Hour</label>
     <input matInput type="time" [(ngModel)]="data.hourReminder" />
   </div>
-  <div class="fieldReminder">
-    <label class="resaltedTitle">City</label>
+  <div class="field-reminder">
+    <label class="title">City</label>
     <input
       type="text"
       matInput
@@ -35,10 +35,9 @@
       (change)="queryWeatherData(data.city)"
     />
   </div>
-  <div class="foreCastWeather" *ngIf="weatherCity">
-    <label class="resaltedTitle">Forecast</label>
-    <!-- <div class="foreCastWeather"> -->
-    <div>
+  <div class="l-vertical-center" *ngIf="weatherCity">
+    <label class="title">Forecast</label>
+    <div class="l-center l-full-width">
       <div class="parameter">
         <mat-icon aria-hidden="false">filter_drama</mat-icon>
         <label>{{ weatherCity.main.temp_min | converterGrades }}</label>
@@ -49,10 +48,9 @@
         <label>{{ weatherCity.weather[0]["description"] }}</label>
       </div>
     </div>
-    <!-- </div> -->
   </div>
-  <div class="fieldReminder">
-    <label class="resaltedTitle">Color</label>
+  <div class="field-reminder">
+    <label class="title">Color</label>
     <mat-form-field>
       <mat-select
         [(ngModel)]="data.colorReminder"
