@@ -1,72 +1,73 @@
-<h1>Calendar</h1>
-<div class="buttonCalendar">
-  <button (click)="setMonth(-1)">&lt;</button>
-  <strong>{{ date | date }}</strong>
-  <button (click)="setMonth(+1)">&gt;</button>
-</div>
-<ul>
-  <li class="days" *ngFor="let day of days">{{ day }}</li>
-  <li
-    *ngFor="let dayCalendar of remindersCalendar; index as i"
-    (click)="(!panelOpenState)"
-  >
-    <mat-expansion-panel
-      hideToggle
-      (opened)="panelOpenState = true"
-      (closed)="panelOpenState = false"
-    >
-      <mat-expansion-panel-header
-        [ngClass]="{ fitPanel: dayCalendar.dayReminders.length > 0 }"
-      >
-        <mat-panel-title
-          [ngClass]="{ grey: !isSameMonth(dayCalendar.dayDate) }"
-        >
-          {{ dayCalendar.dayDate | date: "d" }}
-          <mat-icon
-            *ngIf="dayCalendar.dayReminders.length > 0"
-            matTooltip="Reminders"
-            aria-hidden="false"
-            [matBadge]="dayCalendar.dayReminders.length"
-            matBadgeColor="accent"
-            matBadgeSize="small"
-            matBadgePosition="below"
-            >event</mat-icon
-          >
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-
-      <div class="panel-content" *ngIf="dayCalendar.dayReminders.length > 0">
-        <div
-          class="reminder"
-          *ngFor="let r of dayCalendar.dayReminders"
-          [ngStyle]="{ color: r.colorReminder ? r.colorReminder : 'black' }"
-        >
-          <p>{{ r.textReminder }} {{ r.hourReminder }}</p>
-          <!-- <p>{{ r.textReminder }} {{ r.city }} {{ r.hourReminder }}</p> -->
-          <div>
-            <mat-icon matTooltip="Edit Reminder" (click)="openDialog(r)"
-              >edit_note</mat-icon
-            >
-            <mat-icon matTooltip="Delete Reminder" (click)="deleteReminder(r)"
-              >delete</mat-icon
-            >
+<header>
+  <h1>Calendar</h1>
+  <div class="date-picker">
+    <button class="date-picker--button" (click)="setMonth(-1)">&lt;</button>
+    <strong>{{ date | date }}</strong>
+    <button class="date-picker--button" (click)="setMonth(+1)">&gt;</button>
+  </div>
+</header>
+<main>
+  <ul class="list">
+    <li
+      class="list--item list--item--days"
+      *ngFor="let day of days">
+      {{ day }}
+    </li>
+    <li
+      class="list--item"
+      *ngFor="let dayCalendar of remindersCalendar; index as i"
+      (click)="(!panelOpenState)">
+      <mat-expansion-panel
+        hideToggle
+        (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false">
+        <mat-expansion-panel-header
+          [ngClass]="{ fitPanel: dayCalendar.dayReminders.length > 0 }">
+          <mat-panel-title
+            [ngClass]="{ grey: !isSameMonth(dayCalendar.dayDate) }">
+            {{ dayCalendar.dayDate | date: "d" }}
+            <mat-icon
+              *ngIf="dayCalendar.dayReminders.length > 0"
+              matTooltip="Reminders"
+              aria-hidden="false"
+              [matBadge]="dayCalendar.dayReminders.length"
+              matBadgeColor="accent"
+              matBadgeSize="small"
+              matBadgePosition="below">
+              event
+            </mat-icon>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="l-column" *ngIf="dayCalendar.dayReminders.length > 0">
+          <div
+            class="reminder"
+            *ngFor="let r of dayCalendar.dayReminders"
+            [ngStyle]="{ color: r.colorReminder ? r.colorReminder : 'black' }">
+            <p>{{ r.textReminder }} {{ r.hourReminder }}</p>
+            <div class="reminder--actions">
+              <mat-icon matTooltip="Edit Reminder" (click)="openDialog(r)">
+                edit_note
+              </mat-icon>
+              <mat-icon matTooltip="Delete Reminder" (click)="deleteReminder(r)">
+                delete
+              </mat-icon>
+            </div>
           </div>
         </div>
-      </div>
-      <mat-icon
-        matTooltip="Create Reminder"
-        aria-hidden="false"
-        (click)="openDialog(dayCalendar)"
-        >create</mat-icon
-      >
-      <mat-icon
-        *ngIf="dayCalendar.dayReminders.length > 0"
-        matTooltip="Delete All Reminders"
-        aria-hidden="false"
-        (click)="deleteReminder(dayCalendar)"
-        >delete_sweep
-      </mat-icon>
-    </mat-expansion-panel>
-    <!-- (click)="selected.emit(date)" -->
-  </li>
-</ul>
+        <mat-icon
+          matTooltip="Create Reminder"
+          aria-hidden="false"
+          (click)="openDialog(dayCalendar)">
+          create
+        </mat-icon>
+        <mat-icon
+          *ngIf="dayCalendar.dayReminders.length > 0"
+          matTooltip="Delete All Reminders"
+          aria-hidden="false"
+          (click)="deleteReminder(dayCalendar)">
+          delete_sweep
+        </mat-icon>
+      </mat-expansion-panel>
+    </li>
+  </ul>
+</main>

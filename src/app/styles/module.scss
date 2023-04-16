@@ -1,0 +1,64 @@
+@import '../styles/variables.scss';
+
+.date-picker {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0px;
+  &--button {
+    margin: 0px 5px;
+  }
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  &--item {
+    display: inline-block;
+    border: 1px solid $light-gray;
+    width: calc(100% / 7 - 2px);
+    text-align: center;
+    cursor: pointer;
+    &--days {
+      font-weight: bold;
+      padding: 10px 0px;
+      background-color: $light-blue;
+      color: white;
+    }
+    &:hover {
+      background-color: $light-gray;
+    }
+  }
+}
+
+.reminder {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  font-size: 10px;
+  line-height: 125%;
+  &--actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+.field-reminder {
+  align-items: center;
+  display: flex;
+  padding: 5px 2px;
+  justify-content: space-between;
+}
+
+.parameter {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  font-size: 11px;
+  margin: 1px 3px;
+  &:nth-child(2) {
+    font-size: 12px;
+    width: 70%;
+  }
+}
